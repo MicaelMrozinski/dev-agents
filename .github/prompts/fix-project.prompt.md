@@ -1,33 +1,46 @@
 # Prompt: Corrigir Projeto
 
-Use este prompt quando disser: **"Corrija este projeto"**
+Use este prompt quando o usuário disser: **"Corrija este projeto"**.
 
 ---
 
 ## Instrução
 
-Leia `.github/copilot-instructions.md` e `.github/AGENTS.md` antes de iniciar.
+Leia `.github/copilot-instructions.md`, `.github/AGENTS.md` e a documentação de estado do projeto antes de iniciar.
 
-Execute:
+## Passos
 
-1. **Analisar** — Entender o estado atual antes de modificar qualquer coisa
-2. **Planejar** — Criar plano de correção com ordem de prioridade
-3. **Impacto** — Identificar impacto de cada correção em outros módulos
-4. **Aplicar** — Corrigir em etapas pequenas, uma de cada vez
-5. **Testar** — Validar cada correção com testes
-6. **Revisar** — Verificar que a correção não introduziu novos problemas
-7. **Documentar** — Registrar o que foi alterado e por quê
-8. **Informar** — Entregar resumo completo ao usuário
+1. Validar repositório, branch e status.
+2. Entender problemas relatados ou encontrados.
+3. Selecionar agentes necessários para cada correção.
+4. Priorizar correções críticas.
+5. Corrigir em etapas pequenas.
+6. Validar cada etapa.
+7. Atualizar documentação afetada.
+8. Não iniciar features novas.
 
-Prioridade de correção:
+## Prioridade de Correção
 
-1. Vulnerabilidades de segurança críticas
-2. Bugs que impedem uso
-3. Quebra de contratos/APIs
-4. Problemas de integridade de dados
-5. Falhas de acessibilidade
-6. Problemas de responsividade
-7. Textos hardcoded
-8. Problemas de performance
-9. Inconsistências de código
-10. Documentação desatualizada
+1. Vulnerabilidades críticas.
+2. Bugs que impedem uso.
+3. Quebra de contratos/APIs.
+4. Integridade de dados.
+5. Falhas de acessibilidade bloqueantes.
+6. Problemas graves de responsividade.
+7. Testes quebrados.
+8. Textos hardcoded quando i18n estiver ativada.
+9. Performance.
+10. Inconsistências de código.
+11. Documentação desatualizada.
+
+## Entrega
+
+Entregar:
+
+- problemas corrigidos;
+- agentes ativados;
+- arquivos alterados;
+- comandos executados;
+- resultados;
+- pendências;
+- se a fase pode ser aprovada.

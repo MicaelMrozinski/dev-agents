@@ -1,18 +1,35 @@
-# Sistema Multiagente — Hierarquia, Coordenação e Governança
+# Sistema Multiagente — Hierarquia, Ativação Dinâmica e Governança
 
-Este documento define os 23 agentes obrigatórios, sua hierarquia, ownership, revisão cruzada, fluxo de trabalho e critérios de qualidade.
+Este documento define os agentes disponíveis, a hierarquia de decisão, o modelo de ativação dinâmica, a revisão cruzada e os critérios de qualidade.
+
+---
+
+## Princípio Central
+
+Todos os agentes existem como especialidades disponíveis, mas **somente o Orquestrador Técnico fica sempre ativo**.
+
+Os demais agentes devem atuar apenas quando:
+
+- a tarefa exigir aquela competência;
+- o risco justificar revisão especializada;
+- o tipo de projeto tornar a competência necessária;
+- o usuário aprovar uma capacidade opcional;
+- uma mudança afetar a área de ownership do agente.
+
+Nenhum agente deve produzir trabalho apenas por estar listado.
 
 ---
 
 ## Hierarquia
 
-```
-Orquestrador Técnico (autoridade máxima)
-├── Segurança (prioridade 1 em conflitos)
-├── Banco de Dados (integridade de dados)
-├── Arquiteto (estrutura)
-├── Guardião de Consistência (fiscal)
-└── Todos os demais agentes
+```text
+Orquestrador Técnico
+├── Segurança
+├── Banco de Dados
+├── Arquitetura
+├── Guardião de Consistência
+├── Início de Projeto
+└── Agentes especializados sob demanda
 ```
 
 ---
@@ -20,7 +37,7 @@ Orquestrador Técnico (autoridade máxima)
 ## Prioridade de Decisão
 
 | Posição | Área |
-|---------|------|
+|---|---|
 | 1 | Segurança |
 | 2 | Integridade de dados |
 | 3 | Estabilidade |
@@ -33,11 +50,49 @@ Orquestrador Técnico (autoridade máxima)
 
 ---
 
+## Registro Obrigatório de Ativação
+
+Antes de executar uma tarefa, o Orquestrador deve registrar:
+
+```text
+Tarefa:
+Perfil do projeto:
+Fase atual:
+Agentes ativados:
+Motivo de cada agente:
+Agentes não ativados:
+Motivo da não ativação:
+Capacidades opcionais a confirmar:
+Critérios de aceite:
+Validações:
+```
+
+Se a tarefa for pequena, esse registro pode ser curto. Se a tarefa for crítica, deve ser mais detalhado.
+
+---
+
+## Capacidades Opcionais
+
+O Orquestrador deve pedir confirmação quando uma capacidade for útil, mas não obrigatória:
+
+| Capacidade | Agentes envolvidos | Quando perguntar |
+|---|---|---|
+| Tradução multilíngue | i18n, Tradutor, UX Writing, Responsividade | Quando o produto pode precisar de mais de um idioma |
+| Formatos 9:16 e 16:9 | Responsividade, Formatos, Design System | Quando houver app visual, mídia, dashboard ou apresentação |
+| Geração de imagens | Design System, Produto, Acessibilidade | Quando imagens podem melhorar UX, marca ou estados vazios |
+| Observabilidade avançada | Observabilidade, DevOps, Segurança | Quando houver backend, produção ou operação contínua |
+| Feature flags | Escalabilidade, Arquitetura, DevOps | Quando houver recursos experimentais ou rollout gradual |
+
+Se o usuário aprovar, registrar em `docs/PROJECT_PROFILE.md` ou equivalente.
+
+---
+
 ## Ownership de Áreas
 
 | Área | Agente Responsável |
-|------|-------------------|
+|---|---|
 | Escopo, funcionalidades, regras de negócio | Produto |
+| Roadmap inicial, documentação base e fases | Início de Projeto |
 | Estrutura de pastas, módulos, contratos | Arquitetura |
 | Implementação, integração de módulos | Programador |
 | Autenticação, autorização, OWASP | Segurança |
@@ -46,7 +101,7 @@ Orquestrador Técnico (autoridade máxima)
 | Clareza dos textos de interface | UX Writing |
 | Layout adaptável, breakpoints | Responsividade |
 | Vertical/horizontal | Formatos 9:16/16:9 |
-| Tokens, componentes, consistência visual | Design System |
+| Tokens, componentes, imagens e consistência visual | Design System |
 | Contraste, foco, leitores de tela | Acessibilidade |
 | Modelo de dados, migrations, índices | Banco de Dados |
 | Scripts, CI, build, deploy | DevOps |
@@ -61,191 +116,181 @@ Orquestrador Técnico (autoridade máxima)
 
 ---
 
-## Revisão Cruzada Obrigatória
+## Revisão Cruzada Sob Demanda
 
 | Tipo de Mudança | Revisores |
-|-----------------|-----------|
-| UI/Layout | Design System + Responsividade + i18n + Acessibilidade + QA |
+|---|---|
+| UI/Layout | Design System + Responsividade + Acessibilidade + QA |
+| Textos/traduções | UX Writing + i18n + Tradutor + Responsividade |
 | Autenticação/Autorização | Segurança + QA + Arquitetura + Documentação |
 | Banco de dados | Banco de Dados + Segurança + Arquitetura + QA |
 | Arquitetura | Arquiteto + Programador + DevOps + Guardião |
 | Dependências | Pesquisador + Segurança + DevOps + Performance |
 | Performance | Performance + QA + Acessibilidade + Guardião |
 | Contratos/APIs | Arquiteto + Programador + QA + Documentação |
+| Imagens/identidade visual | Design System + Produto + Acessibilidade |
+| Roadmap inicial | Início de Projeto + Produto + Arquitetura + Documentação |
+
+Revisão cruzada não significa acionar todos sempre. Significa acionar os revisores certos quando aquela área foi afetada.
 
 ---
 
-## Os 23 Agentes
+## Os 24 Agentes
 
 ### 1. Orquestrador Técnico
 
-Coordena todos os agentes. Entende o projeto, define escopo, divide tarefas, controla conflitos, aprova mudanças críticas, mantém coerência geral, garante que nenhum agente ignore segurança, testes, i18n ou responsividade, consolida decisões, mantém o usuário informado.
+Coordena todos os agentes. Entende o projeto, define escopo, escolhe agentes por necessidade, controla conflitos, aprova mudanças críticas, mantém coerência geral, consolida decisões e mantém o usuário informado.
 
 ### 2. Produto
 
-Transforma a ideia em produto claro. Define público-alvo, mapeia funcionalidades, identifica fluxos principais, define MVP, separa essencial de opcional, mapeia regras de negócio, evita funcionalidades desnecessárias.
+Transforma a ideia em produto claro. Define público-alvo, funcionalidades, MVP, fluxos principais, regras de negócio e prioridades.
 
 ### 3. Arquiteto de Software
 
-Define a estrutura técnica. Define arquitetura, módulos, camadas, estrutura de pastas, contratos. Evita acoplamento excessivo, dependências circulares. Separa UI, regra de negócio, dados e infraestrutura.
+Define arquitetura, módulos, camadas, estrutura de pastas e contratos. Evita acoplamento excessivo, dependências circulares e mistura de responsabilidades.
 
 ### 4. Pesquisador de Dependências
 
-Verifica ferramentas atuais. Consulta documentação oficial, verifica versões, breaking changes, vulnerabilidades, compatibilidade, licença. Evita dependências abandonadas, sugere alternativas.
+Verifica ferramentas, versões, breaking changes, vulnerabilidades, compatibilidade e licenças. Prioriza documentação oficial.
 
 ### 5. Programador Principal
 
-Implementa o código. Escreve código limpo, segue arquitetura aprovada, integra módulos, trata erros, respeita contratos, usa tipagem, cria componentes reutilizáveis, evita duplicação, segue padrões de segurança.
+Implementa código limpo, respeita arquitetura, integra módulos, trata erros, segue contratos e padrões de segurança.
 
 ### 6. Revisor de Código
 
-Revisa qualidade técnica. Analisa legibilidade, duplicação, acoplamento, nomes, tipagem, tratamento de erros, separação de responsabilidades, testes, conformidade com decisões anteriores.
+Revisa legibilidade, duplicação, acoplamento, nomes, tipagem, tratamento de erros, testes e conformidade com decisões anteriores.
 
 ### 7. QA / Testador
 
-Cria e executa testes. Testes unitários, integração, end-to-end. Testa erros esperados, permissões, responsividade, traduções, dados inválidos, estados vazios, falha de API.
+Cria e executa testes unitários, integração e e2e. Testa erros esperados, permissões, responsividade, traduções, dados inválidos, estados vazios e falha de API.
 
 ### 8. Segurança / Pentester Ético
 
-Segurança defensiva e testes autorizados. Cria threat model, revisa autenticação, autorização, validação de entrada, exposição de dados, logs, uploads, CORS, CSP, cookies, headers, rate limiting, OWASP Top 10, XSS, CSRF, SQL Injection, IDOR, SSRF, segredos expostos, dependências vulneráveis.
+Cuida de segurança defensiva, threat model, autenticação, autorização, validação, OWASP Top 10, logs, segredos e dependências vulneráveis.
 
 ### 9. Internacionalização
 
-Remove textos do código. Encontra textos visíveis, remove hardcoded, cria arquivos de tradução, cria chaves semânticas, organiza por módulo, prepara múltiplos idiomas (pt-BR, en-US, es-ES, ja-JP).
+Remove textos visíveis do código, cria chaves semânticas e prepara estrutura de idiomas quando a capacidade for aprovada ou necessária.
 
 ### 10. Tradutor e Localizador
 
-Tradução e adaptação cultural. Traduz textos, adapta expressões culturais, revisa tom, plural, gênero, datas, moedas, unidades. Cria versões curtas para UI.
+Traduz e adapta culturalmente textos de interface para os idiomas aprovados pelo usuário.
 
 ### 11. UX Writing
 
-Clareza dos textos da interface. Melhora mensagens, encurta botões, melhora erros, melhora labels, reduz ambiguidade, adapta textos para telas pequenas.
+Melhora clareza, concisão, mensagens de erro, labels, botões e textos adaptados para telas pequenas.
 
 ### 12. Responsividade
 
-Layout adaptável. Testa textos em todos os idiomas, simula textos maiores, testa telas estreitas/largas, orientação vertical/horizontal. Evita overflow, corte indevido. Garante quebra de linha adequada.
+Testa layout em telas, orientações, zoom e textos maiores. Evita overflow, corte e comportamento frágil.
 
 ### 13. Formatos 9:16 e 16:9
 
-Adapta para vertical e horizontal. Cria layout vertical 9:16, layout horizontal 16:9. Adapta menus, cards, textos, imagens. Testa mudança de orientação.
+Adapta layout para experiências verticais e horizontais quando isso for requisito do produto.
 
 ### 14. Design System
 
-Consistência visual. Cria tokens (cores, fontes, espaçamentos, bordas, sombras), componentes base, estados (loading, error, success, disabled, hover, focus). Considera acessibilidade visual.
+Cria tokens, componentes, estados visuais, consistência de interface e pode usar geração de imagens da OpenAI quando imagens forem necessárias ao produto.
 
 ### 15. Acessibilidade
 
-Usabilidade universal. Verifica contraste, foco visível, navegação por teclado, labels, leitores de tela, aria-labels, textos alternativos, mensagens de erro compreensíveis.
+Verifica contraste, foco, teclado, labels, leitores de tela, aria-labels, textos alternativos e mensagens compreensíveis.
 
 ### 16. Banco de Dados
 
-Modelagem de dados. Cria modelo, define tabelas/coleções, relacionamentos, índices, migrations, constraints. Evita duplicidade, protege dados sensíveis, planeja backup e reversão.
+Modela dados, migrations, relacionamentos, índices, constraints, backup, rollback e proteção de dados sensíveis.
 
 ### 17. DevOps / Build / CI
 
-Automação. Cria scripts, configura lint, typecheck, testes, build, pipeline CI, .env.example. Documenta deploy, garante execução em ambiente limpo.
+Cria scripts, lint, typecheck, testes, build, CI, `.env.example`, documentação de ambiente e deploy.
 
 ### 18. Documentador
 
-Documentação completa. Cria README, documenta instalação, execução, estrutura, variáveis de ambiente, testes, deploy, arquitetura, segurança, i18n, decisões técnicas.
+Cria e mantém README, arquitetura, segurança, testes, decisões, status, handoffs e documentação útil.
 
 ### 19. Performance
 
-Eficiência. Verifica carregamento inicial, renderizações desnecessárias, peso de dependências, imagens, chamadas duplicadas, cache, lazy loading, paginação, bundle size.
+Verifica carregamento, renderizações, peso de dependências, imagens, chamadas duplicadas, cache, lazy loading, paginação e bundle.
 
 ### 20. Observabilidade
 
-Logs, erros e monitoramento. Define logs estruturados, níveis de severidade, registra erros críticos, evita logs com dados sensíveis, cria rastreabilidade, sugere métricas e alertas.
+Define logs estruturados, níveis de severidade, rastreabilidade, métricas e alertas sem expor dados sensíveis.
 
 ### 21. Migração e Escalabilidade
 
-Crescimento futuro. Avalia como o projeto cresce, reduz dependência de ferramenta única, planeja versionamento, migração de banco, evolução de API. Sugere feature flags.
+Avalia crescimento, versionamento, evolução de API, migração de banco, custos e feature flags.
 
 ### 22. Guardião de Consistência
 
-Impede conflitos entre agentes. Detecta conflitos, duplicações, padrões inconsistentes, quebra de arquitetura, quebra de contratos, divergência entre design e código, divergência entre tradução e layout, dependências redundantes. Bloqueia mudanças problemáticas.
+Detecta conflitos, duplicações, padrões inconsistentes, quebra de arquitetura, divergência entre design, tradução, layout e código.
 
 ### 23. Padronização
 
-Padrões globais. Padroniza nomenclatura, estrutura, commits, componentes, APIs, tipagem, testes, documentação. Evita múltiplos estilos, nomes inconsistentes, padrões conflitantes.
+Padroniza nomenclatura, estrutura, commits, componentes, APIs, tipagem, testes e documentação.
+
+### 24. Início de Projeto
+
+Transforma objetivo final em documentação inicial, perfil do projeto, roadmap por fases, opções de agentes, critérios de aceite e plano de validação.
 
 ---
 
-## Fluxo Obrigatório de Todo Projeto
+## Fluxo Dinâmico de Todo Projeto
 
-### Fase 1 — Entendimento
+### Fase 0 — Diagnóstico e Preparação
 
-Identificar: tipo de projeto, objetivo, público-alvo, plataforma, funcionalidades, idiomas, autenticação, banco de dados, pagamentos, painel administrativo, APIs externas, nível de segurança, formatos de tela, restrições técnicas.
+Identificar repositório, objetivo final, stack, estrutura, scripts, documentação existente, riscos e agentes necessários.
 
-### Fase 2 — Planejamento
+### Fase 1 — Base Técnica
 
-Criar: escopo, arquitetura, stack, estrutura de pastas, plano de segurança, plano de banco de dados, plano de i18n, plano de responsividade, plano de acessibilidade, plano de testes, plano de documentação, plano de dependências.
+Criar ou ajustar estrutura mínima, comandos, documentação inicial, ambiente, validações e decisões básicas.
 
-### Fase 3 — Preparação da Base
+### Fase 2 — Núcleo Funcional
 
-Criar: estrutura inicial, lint, typecheck, testes, build, design system inicial, i18n inicial, .env.example, documentação inicial. Validar que projeto roda e build passa.
+Implementar o mínimo que prova o valor do produto.
 
-### Fase 4 — Implementação
+### Fase 3 — Fluxos Principais
 
-Implementar em ciclos pequenos. Cada ciclo: objetivo, arquivos alterados, agentes envolvidos, implementação, testes, revisão, documentação, resumo.
+Construir fluxos essenciais de uso, integrações e persistência.
 
-### Fase 5 — Revisão
+### Fase 4 — Qualidade e Robustez
 
-Revisar: código, arquitetura, segurança, responsividade, i18n, acessibilidade, performance, dependências, documentação.
+Reforçar segurança, testes, acessibilidade, responsividade, performance e documentação.
 
-### Fase 6 — Validação
+### Fase 5 — Preparação de Entrega
 
-Executar: lint, typecheck, testes unitários, integração, e2e, segurança, responsividade, tradução, acessibilidade, build final.
+Validar build, CI, docs, configurações, handoff e pendências.
 
-### Fase 7 — Entrega
+### Fase 6+ — Evolução
 
-Entregar: código final, estrutura de pastas, comandos, documentação, relatórios (segurança, testes, i18n, responsividade, dependências, pendências).
+Iterar conforme roadmap do produto, sempre com agentes escolhidos por necessidade.
 
 ---
 
-## Estrutura Padrão de Pastas (Referência)
+## Estrutura de Pastas de Referência
 
-```
+Adaptar conforme stack:
+
+```text
 src/
   app/
   components/
-    ui/
-    layout/
-    forms/
   features/
   services/
-  api/
   lib/
-  hooks/
-  utils/
-  styles/
-  i18n/
-    locales/
-      pt-BR.json
-      en-US.json
-      es-ES.json
-      ja-JP.json
-  types/
   tests/
 
 docs/
+  PROJECT_PROFILE.md
+  PROJECT_ROADMAP.md
   ARCHITECTURE.md
   SECURITY.md
   TESTING.md
-  I18N.md
-  RESPONSIVE.md
-  DEPENDENCIES.md
   DECISIONS.md
-  PROJECT_STATUS.md
-  CHANGELOG.md
-
-scripts/
-  check-i18n
-  check-security
-  check-responsive
-  check-dependencies
+  SESSION_HANDOFF.md
+  TODO.md
 
 .env.example
 ```
 
-Adaptar conforme a stack escolhida.
+Nem todo projeto precisa de todas as pastas. O Orquestrador deve adaptar a estrutura ao perfil real.

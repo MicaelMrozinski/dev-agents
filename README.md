@@ -1,104 +1,128 @@
-# Dev Agents — Sistema Multiagente Profissional para Desenvolvimento de Software
+# Dev Agents — Sistema Multiagente Dinâmico para Desenvolvimento de Software
 
-Sistema de **23 agentes especializados** que trabalham em conjunto para garantir que todo software produzido tenha padrão profissional desde o início. Funciona no **Manus**, **GitHub Copilot**, **VS Code Agent Mode**, **ChatGPT**, **Claude** e qualquer outra IA que aceite instruções de sistema.
+Sistema de agentes especializados para iniciar, adaptar, evoluir e revisar projetos de software com qualidade profissional. O `dev-agents` não é um produto final: ele é uma base reutilizável de governança, prompts, agentes, templates e metodologia.
 
----
-
-## O que é
-
-Um framework de governança para desenvolvimento de software com IA. Ao invés de simplesmente gerar código, o sistema atua como uma equipe completa de engenharia:
-
-| Fase | Agentes Principais |
-|------|-------------------|
-| Entendimento | Orquestrador, Produto |
-| Planejamento | Arquiteto, Pesquisador, Segurança, Banco de Dados |
-| Preparação | DevOps, Design System, Internacionalização |
-| Implementação | Programador, todos os revisores |
-| Revisão | Revisor, Segurança, QA, Guardião de Consistência |
-| Validação | QA, Performance, Acessibilidade, Responsividade |
-| Entrega | Documentador, DevOps |
+Funciona com ferramentas de IA que aceitam instruções de projeto ou contexto de repositório, como GitHub Copilot Agent Mode, Codex, ChatGPT, Claude, Cursor, VS Code Agent Mode e outras.
 
 ---
 
-## Instalação
+## O Que É
 
-### Opção 1: Copiar para seu projeto
+Um framework de trabalho com IA para desenvolvimento de software. Em vez de acionar todos os agentes o tempo inteiro, o sistema usa um **Orquestrador Técnico** para decidir quais agentes são necessários para cada tarefa, fase e tipo de projeto.
 
-Copie a pasta `.github/` para a raiz de qualquer repositório:
+Exemplos:
+
+| Situação | Agentes prováveis |
+|---|---|
+| Ideia inicial de produto | Início de Projeto, Produto, Arquitetura, Documentação |
+| Novo app com interface | Produto, Arquitetura, Design System, Acessibilidade, Responsividade, QA |
+| Backend/API | Arquitetura, Segurança, Banco de Dados, QA, DevOps, Observabilidade |
+| Correção pequena | Programador, Revisor, QA, Guardião de Consistência |
+| Tradução opcional | Internacionalização, Tradutor, UX Writing, Responsividade |
+| Auditoria geral | Revisor, Segurança, QA, Performance, Documentação, Padronização |
+
+---
+
+## Regra Central
+
+```text
+dev-agents = caixa de ferramentas
+produto real = repositório próprio
+```
+
+Nunca implemente código de produto dentro do repositório `dev-agents`. Copie ou instale os agentes no repositório do produto quando quiser que eles passem a orientar aquele projeto.
+
+---
+
+## Instalação em Um Projeto
+
+### Opção 1: Copiar para o projeto
 
 ```bash
-# Clone este repositório
 git clone https://github.com/MicaelMrozinski/dev-agents.git
-
-# Copie a pasta .github para seu projeto
 cp -r dev-agents/.github/ /caminho/do/seu/projeto/
 ```
 
-### Opção 2: Usar como submódulo
+### Opção 2: Script de instalação
+
+Execute na raiz do repositório do produto:
+
+```bash
+curl -sL https://raw.githubusercontent.com/MicaelMrozinski/dev-agents/main/install.sh | bash
+```
+
+### Opção 3: Submódulo
 
 ```bash
 cd seu-projeto
 git submodule add https://github.com/MicaelMrozinski/dev-agents.git .dev-agents
-ln -s .dev-agents/.github .github
+cp -r .dev-agents/.github/ .github/
 ```
-
-### Opção 3: Usar como referência no Manus
-
-Basta vincular este repositório ao seu projeto no Manus. Os agentes serão carregados automaticamente.
 
 ---
 
 ## Como Usar
 
-### No Manus
+Use os prompts em `.github/prompts/` conforme o momento:
 
-1. Vincule este repositório ao seu projeto
-2. Use os comandos:
-   - `Crie um projeto: [descrição]` — Executa o fluxo completo de 7 fases
-   - `Continue o projeto: [contexto]` — Lê estado atual e continua
-   - `Revise este projeto` — Aciona todos os agentes de revisão
-   - `Corrija este projeto` — Analisa e aplica correções em etapas
+| Prompt | Quando usar |
+|---|---|
+| `agent-start.prompt.md` | Iniciar o sistema multiagente |
+| `create-project.prompt.md` | Começar um projeto novo em um repositório de produto |
+| `adapt-project.prompt.md` | Adaptar um projeto existente à metodologia |
+| `continue-project.prompt.md` | Continuar uma fase já iniciada |
+| `review-project.prompt.md` | Revisar o projeto |
+| `fix-project.prompt.md` | Corrigir problemas encontrados |
 
-### No VS Code / GitHub Copilot
-
-1. Copie `.github/` para a raiz do seu repositório
-2. Os arquivos `.agent.md` criam agentes personalizados no Agent Mode
-3. Use o prompt `.github/prompts/agent-start.prompt.md` para iniciar
-
-### No ChatGPT / Claude / Outra IA
-
-1. Copie o conteúdo de `.github/copilot-instructions.md` como instrução de sistema
-2. A IA executará os 23 papéis em sequência como revisões internas
+O fluxo sempre começa com diagnóstico do projeto e seleção dinâmica de agentes.
 
 ---
 
-## Os 23 Agentes
+## Os 24 Agentes
 
 | # | Agente | Responsabilidade |
-|---|--------|-----------------|
-| 1 | Orquestrador Técnico | Coordenar todos os agentes, resolver conflitos |
-| 2 | Produto | Transformar ideia em produto claro, definir MVP |
-| 3 | Arquiteto de Software | Estrutura técnica, módulos, camadas |
-| 4 | Pesquisador de Dependências | Verificar ferramentas, versões, vulnerabilidades |
-| 5 | Programador Principal | Implementar código limpo |
-| 6 | Revisor de Código | Revisar qualidade técnica |
-| 7 | QA / Testador | Testes unitários, integração, e2e |
-| 8 | Segurança / Pentester | Segurança defensiva, OWASP, threat model |
-| 9 | Internacionalização | Remover textos do código, criar chaves |
-| 10 | Tradutor e Localizador | Tradução e adaptação cultural |
-| 11 | UX Writing | Clareza e concisão dos textos |
-| 12 | Responsividade | Layout adaptável, breakpoints |
-| 13 | Formatos 9:16 e 16:9 | Vertical e horizontal |
-| 14 | Design System | Tokens, componentes, consistência visual |
-| 15 | Acessibilidade | Usabilidade universal, WCAG |
-| 16 | Banco de Dados | Modelagem, migrations, integridade |
-| 17 | DevOps / Build / CI | Scripts, pipeline, automação |
-| 18 | Documentador | README, arquitetura, decisões técnicas |
-| 19 | Performance | Eficiência, bundle, lazy loading |
-| 20 | Observabilidade | Logs, erros, monitoramento |
-| 21 | Migração e Escalabilidade | Crescimento futuro, feature flags |
-| 22 | Guardião de Consistência | Impedir conflitos entre agentes |
-| 23 | Padronização | Padrões globais de código e estrutura |
+|---|---|---|
+| 1 | Orquestrador Técnico | Decidir agentes, coordenar fases e resolver conflitos |
+| 2 | Produto | Transformar ideia em produto claro e MVP |
+| 3 | Arquiteto de Software | Estrutura técnica, módulos, camadas e contratos |
+| 4 | Pesquisador de Dependências | Verificar ferramentas, versões, licenças e riscos |
+| 5 | Programador Principal | Implementar código limpo conforme arquitetura |
+| 6 | Revisor de Código | Revisar qualidade técnica e manutenibilidade |
+| 7 | QA / Testador | Planejar e executar testes |
+| 8 | Segurança / Pentester Ético | Segurança defensiva, OWASP e threat model |
+| 9 | Internacionalização | Preparar textos e chaves de tradução |
+| 10 | Tradutor e Localizador | Traduzir e adaptar textos quando solicitado |
+| 11 | UX Writing | Melhorar clareza, tom e concisão dos textos |
+| 12 | Responsividade | Garantir adaptação a telas e textos variáveis |
+| 13 | Formatos 9:16 e 16:9 | Adaptar experiência vertical e horizontal |
+| 14 | Design System | Tokens, componentes, consistência visual e imagens |
+| 15 | Acessibilidade | WCAG, foco, teclado, contraste e leitores de tela |
+| 16 | Banco de Dados | Modelagem, migrations, índices e integridade |
+| 17 | DevOps / Build / CI | Scripts, pipeline, automação e ambientes |
+| 18 | Documentador | README, arquitetura, decisões e handoffs |
+| 19 | Performance | Eficiência, bundle, cache e carregamento |
+| 20 | Observabilidade | Logs, erros, métricas e rastreabilidade |
+| 21 | Migração e Escalabilidade | Crescimento, versionamento e feature flags |
+| 22 | Guardião de Consistência | Conflitos, duplicações e coerência entre agentes |
+| 23 | Padronização | Convenções globais de código, docs e commits |
+| 24 | Início de Projeto | Criar documentação inicial, roadmap e etapas até o objetivo final |
+
+---
+
+## Ativação Dinâmica
+
+Nenhum agente deve atuar apenas por existir. Antes de cada tarefa, o Orquestrador deve registrar:
+
+```text
+Tarefa:
+Agentes ativados:
+Motivo de cada agente:
+Agentes não ativados:
+Motivo da não ativação:
+Critério de conclusão:
+```
+
+Agentes opcionais, como Tradutor, Formatos 9:16/16:9, Observabilidade avançada ou geração de imagens, devem ser confirmados com o usuário quando não forem indispensáveis.
 
 ---
 
@@ -106,59 +130,46 @@ Basta vincular este repositório ao seu projeto no Manus. Os agentes serão carr
 
 Quando houver conflito entre agentes:
 
-1. **Segurança** (prioridade máxima)
-2. **Integridade de dados**
-3. **Estabilidade**
-4. **Acessibilidade**
-5. **Responsividade**
-6. **Internacionalização**
-7. **Performance**
-8. **Design visual**
-9. **Conveniência de implementação** (prioridade mínima)
+1. Segurança
+2. Integridade de dados
+3. Estabilidade
+4. Acessibilidade
+5. Responsividade
+6. Internacionalização
+7. Performance
+8. Design visual
+9. Conveniência de implementação
 
 ---
 
 ## Estrutura de Arquivos
 
-```
+```text
 .github/
-├── copilot-instructions.md       # Regras globais obrigatórias
-├── AGENTS.md                     # Hierarquia, coordenação, fluxo
+├── copilot-instructions.md
+├── AGENTS.md
 ├── agents/
 │   ├── 01-orchestrator.agent.md
-│   ├── 02-product.agent.md
-│   ├── 03-architecture.agent.md
-│   ├── 04-research.agent.md
-│   ├── 05-programmer.agent.md
-│   ├── 06-code-reviewer.agent.md
-│   ├── 07-qa-testing.agent.md
-│   ├── 08-security.agent.md
-│   ├── 09-i18n.agent.md
-│   ├── 10-translator.agent.md
-│   ├── 11-ux-writing.agent.md
-│   ├── 12-responsiveness.agent.md
-│   ├── 13-aspect-ratio.agent.md
-│   ├── 14-design-system.agent.md
-│   ├── 15-accessibility.agent.md
-│   ├── 16-database.agent.md
-│   ├── 17-devops.agent.md
-│   ├── 18-documentation.agent.md
-│   ├── 19-performance.agent.md
-│   ├── 20-observability.agent.md
-│   ├── 21-scalability.agent.md
-│   ├── 22-consistency-guardian.agent.md
-│   └── 23-standardization.agent.md
-├── instructions/
-│   └── (regras específicas por domínio)
-└── prompts/
-    ├── create-project.prompt.md
-    ├── continue-project.prompt.md
-    ├── review-project.prompt.md
-    └── fix-project.prompt.md
+│   ├── ...
+│   └── 24-project-starter.agent.md
+├── prompts/
+│   ├── agent-start.prompt.md
+│   ├── create-project.prompt.md
+│   ├── adapt-project.prompt.md
+│   ├── continue-project.prompt.md
+│   ├── review-project.prompt.md
+│   └── fix-project.prompt.md
+└── templates/
+    ├── PROJECT_PROFILE.template.md
+    ├── PROJECT_ROADMAP.template.md
+    ├── AGENT_OPTIONS.template.md
+    ├── DECISIONS.template.md
+    ├── SESSION_HANDOFF.template.md
+    └── TODO.template.md
 ```
 
 ---
 
 ## Licença
 
-MIT — Use livremente em qualquer projeto.
+MIT — use livremente em qualquer projeto.

@@ -1,27 +1,60 @@
 # Prompt: Criar Novo Projeto
 
-Use este prompt quando disser: **"Crie um projeto: [descrição]"**
+Use este prompt quando o usuário disser: **"Crie um projeto: [descrição]"**.
 
 ---
 
 ## Instrução
 
-Leia `.github/copilot-instructions.md` e `.github/AGENTS.md` antes de iniciar.
+Leia:
 
-Execute o fluxo completo de 7 fases:
+1. `.github/copilot-instructions.md`
+2. `.github/AGENTS.md`
+3. `.github/agents/01-orchestrator.agent.md`
+4. `.github/agents/24-project-starter.agent.md`
 
-1. **Entendimento** — Identifique tipo, objetivo, público, plataforma, funcionalidades, idiomas, autenticação, banco, pagamentos, APIs externas, segurança, formatos de tela, restrições.
+## Objetivo
 
-2. **Planejamento** — Crie escopo, arquitetura, stack, estrutura de pastas, planos de segurança, banco, i18n, responsividade, acessibilidade, testes, documentação, dependências.
+Transformar a ideia do usuário em um projeto documentado, com fases claras até o objetivo final, antes de iniciar implementação pesada.
 
-3. **Preparação** — Crie estrutura inicial, lint, typecheck, testes, build, design system, i18n, .env.example, docs iniciais. Valide que roda.
+## Passos
 
-4. **Implementação** — Implemente em ciclos pequenos. Cada ciclo: objetivo, arquivos, agentes, código, testes, revisão, docs, resumo.
+1. Validar que o repositório atual é o repositório do produto, não `dev-agents`.
+2. Entender ideia, objetivo final, público, plataforma, stack desejada e restrições.
+3. Fazer no máximo 5 perguntas essenciais se houver bloqueio real.
+4. Perguntar sobre capacidades opcionais quando relevantes:
+   - internacionalização e tradução;
+   - idiomas desejados;
+   - formatos 9:16 e 16:9;
+   - geração de imagens com OpenAI;
+   - observabilidade avançada;
+   - feature flags;
+   - CI/CD completo.
+5. Criar ou atualizar documentação inicial:
+   - `README.md`
+   - `docs/PROJECT_PROFILE.md`
+   - `docs/PROJECT_ROADMAP.md`
+   - `docs/DECISIONS.md`
+   - `docs/SESSION_HANDOFF.md`
+   - `docs/TODO.md`
+   - `.env.example`
+   - `.gitignore`
+6. Dividir o projeto em fases até o objetivo final.
+7. Definir agentes prováveis por fase, sem obrigar todos.
+8. Preparar a Fase 0 com escopo, critérios de aceite e validações.
 
-5. **Revisão** — Revise código, arquitetura, segurança, responsividade, i18n, acessibilidade, performance, dependências, docs.
+## Regra
 
-6. **Validação** — Execute lint, typecheck, testes, segurança, responsividade, tradução, acessibilidade, build final.
+Não implementar funcionalidades grandes antes de criar a documentação mínima e o roadmap aprovável.
 
-7. **Entrega** — Entregue código, estrutura, comandos, docs, relatórios.
+## Entrega
 
-Não pule etapas. Não faça código improvisado. Segurança, tradução, responsividade, acessibilidade, testes e documentação nascem junto com o projeto.
+Entregar:
+
+- resumo do projeto;
+- agentes ativados;
+- capacidades opcionais aprovadas/pendentes;
+- documentos criados ou atualizados;
+- fases planejadas;
+- Fase 0 pronta para execução;
+- perguntas pendentes, se houver.
